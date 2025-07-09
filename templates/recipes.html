@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+{% block title %}Recipes{% endblock %}
+{% block content %}
+<div class="recipes-hero">
+    <h2><i class="fas fa-carrot"></i> Healthy Recipes</h2>
+    <p>Discover delicious, nutritious recipes to fuel your body and delight your taste buds.</p>
+</div>
+<div class="recipes-grid">
+    {% set recipes = [
+    ("Quinoa Salad", "https://cdn.loveandlemons.com/wp-content/uploads/2020/08/quinoa-salad.jpg",
+    "A nutritious salad with quinoa, fresh veggies, and a light lemon dressing.",
+    ["1 cup cooked quinoa", "1/2 cup cherry tomatoes", "1/2 cup cucumber", "1/4 cup red onion", "2 tbsp olive oil", "1
+    tbsp lemon juice", "Salt & pepper"],
+    ["Cook quinoa and let cool.", "Chop veggies and mix with quinoa.", "Whisk olive oil, lemon juice, salt and pepper.",
+    "Toss all together and serve chilled."]),
+    ("Grilled Chicken", "https://www.cookingclassy.com/wp-content/uploads/2022/07/grilled-chicken-breast-4.jpg",
+    "Lean chicken breast grilled to perfection with herbs and spices.",
+    ["2 chicken breasts", "1 tbsp olive oil", "1 tsp garlic powder", "1 tsp paprika", "Salt & pepper", "Fresh herbs
+    (optional)"],
+    ["Brush chicken with olive oil and seasonings.", "Grill 5-6 min each side until cooked through.", "Let rest, slice,
+    and serve."]),
+    ("Avocado Toast", "https://www.thespruceeats.com/thmb/dfa8Uq14SlF33FCAsPbDZVHp9bE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/avocado-toast-4174244-hero-03-d9d005dc633f44889ba5385fe4ebe633.jpg",
+    "Whole grain toast topped with creamy avocado, cherry tomatoes, and a sprinkle of seeds.",
+    ["2 slices whole grain bread", "1 ripe avocado", "6 cherry tomatoes", "1 tbsp pumpkin seeds", "Salt & pepper",
+    "Chili flakes (optional)"],
+    ["Toast bread.", "Mash avocado, spread on toast.", "Top with sliced tomatoes, seeds, salt, pepper, and chili
+    flakes."]),
+    ("Berry Smoothie", "https://beamingbaker.com/wp-content/uploads/2015/01/IGT1-Easy-Berry-Smoothie-Recipe-2.jpg",
+    "A refreshing blend of mixed berries, Greek yogurt, and chia seeds for a morning boost.",
+    ["1 cup mixed berries", "1/2 cup Greek yogurt", "1/2 banana", "1 tbsp chia seeds", "1/2 cup almond milk"],
+    ["Blend all ingredients until smooth.", "Pour into a glass and enjoy immediately."]),
+    ("Oatmeal Bowl", "https://tse4.mm.bing.net/th/id/OIP.fQirqhn6lnXbct6v7aMPaAAAAA?rs=1&pid=ImgDetMain&o=7&rm=3",
+    "Hearty oats topped with banana, nuts, and a drizzle of honey for lasting energy.",
+    ["1/2 cup rolled oats", "1 cup milk or water", "1 banana", "2 tbsp walnuts", "1 tbsp honey", "Cinnamon"],
+    ["Cook oats with milk/water.", "Slice banana, add to oats.", "Top with walnuts, honey, and cinnamon."]),
+    ("Veggie Stir Fry", "https://natashaskitchen.com/wp-content/uploads/2020/08/Vegetable-Stir-Fry-2.jpg",
+    "Colorful vegetables sautéed with tofu and a light soy-ginger sauce, served over brown rice.",
+    ["1 cup broccoli florets", "1 bell pepper", "1 carrot", "100g tofu", "2 tbsp soy sauce", "1 tsp grated ginger", "1
+    cup cooked brown rice"],
+    ["Cube tofu and sauté until golden.", "Add chopped veggies, stir fry 3-4 min.", "Add soy sauce and ginger, cook 2
+    min.", "Serve over rice."]),
+    ("Chickpea Buddha Bowl",
+    "https://tse3.mm.bing.net/th/id/OIP.E0eNTAd9uJA0fQTQbzlN7gHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+    "A protein-packed bowl with roasted chickpeas, quinoa, greens, and tahini dressing.",
+    ["1 cup cooked chickpeas", "1 cup cooked quinoa", "1 cup spinach", "1/2 avocado", "2 tbsp tahini", "1 tbsp lemon
+    juice"],
+    ["Roast chickpeas with spices at 200°C for 20 min.", "Arrange quinoa, greens, avocado, and chickpeas in a bowl.",
+    "Mix tahini and lemon juice, drizzle on top."]),
+    ("Banana Pancakes", "https://www.allthingsmamma.com/wp-content/uploads/2022/05/Banana-Pancakes-Hero-15-scaled.jpg",
+    "Fluffy pancakes made with banana and oats, perfect for a healthy breakfast.",
+    ["1 ripe banana", "2 eggs", "1/2 cup oats", "1/2 tsp baking powder", "Pinch of salt", "Coconut oil for cooking"],
+    ["Mash banana, mix with eggs, oats, baking powder, and salt.", "Heat oil in pan, pour batter, cook 2-3 min per
+    side.", "Serve warm."]),
+    ] %}
+    {% for r in recipes %}
+    <div class="recipe-card">
+        <img src="{{ r[1] }}" alt="{{ r[0] }}">
+        <h3>{{ r[0] }}</h3>
+        <p>{{ r[2] }}</p>
+        <button class="view-recipe-btn" onclick="toggleRecipe(this)">View Recipe <i
+                class="fas fa-utensils"></i></button>
+        <div class="recipe-details">
+            <div class="recipe-section">
+                <span class="section-title"><i class="fas fa-list-ul"></i> Ingredients:</span>
+                <ul>
+                    {% for ing in r[3] %}
+                    <li>{{ ing }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="recipe-section">
+                <span class="section-title"><i class="fas fa-blender"></i> Steps:</span>
+                <ol>
+                    {% for step in r[4] %}
+                    <li>{{ step }}</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<style>
+    .recipes-hero {
+        background: linear-gradient(90deg, #e0c3fc 0%, #8ec5fc 100%);
+        border-radius: 18px;
+        box-shadow: 0 2px 24px rgba(127, 83, 172, 0.08);
+        padding: 2rem 1.5rem 1.2rem 1.5rem;
+        margin: 2rem auto 1.5rem auto;
+        max-width: 900px;
+        text-align: center;
+    }
+
+    .recipes-hero h2 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2.1rem;
+        font-weight: 900;
+        color: #7f53ac;
+        margin-bottom: 0.5rem;
+    }
+
+    .recipes-hero p {
+        font-size: 1.13rem;
+        color: #444;
+    }
+
+    .recipes-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+        max-width: 1200px;
+        margin: 0 auto 2.5rem auto;
+    }
+
+    .recipe-card {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 2px 16px rgba(127, 83, 172, 0.10);
+        padding: 1.3rem 1rem 1.3rem 1rem;
+        text-align: center;
+        width: 280px;
+        transition: transform 0.17s, box-shadow 0.17s, background 0.18s;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid #e0c3fc;
+        z-index: 1;
+    }
+
+    .recipe-card:hover {
+        background: linear-gradient(120deg, #e0c3fc 70%, #8ec5fc 100%);
+        transform: translateY(-7px) scale(1.04);
+        box-shadow: 0 8px 32px rgba(127, 83, 172, 0.14);
+        color: #7f53ac;
+        border-color: #7f53ac;
+        z-index: 2;
+    }
+
+    .recipe-card img {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 12px rgba(127, 83, 172, 0.07);
+        transition: opacity 0.2s;
+    }
+
+    .recipe-card h3 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.18rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        color: #7f53ac;
+    }
+
+    .recipe-card p {
+        font-size: 0.99rem;
+        color: #444;
+    }
+
+    .view-recipe-btn {
+        margin: 0.7rem 0 0.2rem 0;
+        background: #1abc9c;
+        color: #fff;
+        border: none;
+        border-radius: 14px;
+        font-weight: 700;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.99rem;
+        transition: background 0.18s, color 0.18s;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(127, 83, 172, 0.13);
+    }
+
+    .view-recipe-btn:hover,
+    .view-recipe-btn:focus {
+        background: #7f53ac;
+        color: #fff;
+    }
+
+    .recipe-details {
+        display: none;
+        background: #f8f6fc;
+        border-radius: 10px;
+        margin-top: 0.7rem;
+        text-align: left;
+        padding: 1rem 0.7rem 0.7rem 0.7rem;
+        font-size: 0.98rem;
+        box-shadow: 0 2px 8px rgba(127, 83, 172, 0.06);
+        animation: fadeInRecipe 0.3s;
+    }
+
+    @keyframes fadeInRecipe {
+        from {
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    .section-title {
+        font-weight: 700;
+        color: #1abc9c;
+        margin-bottom: 0.4rem;
+        display: inline-block;
+    }
+
+    .recipe-details ul,
+    .recipe-details ol {
+        margin: 0.3rem 0 0.7rem 1.1rem;
+        padding: 0;
+    }
+
+    .recipe-details li {
+        margin-bottom: 0.2rem;
+    }
+
+    @media (max-width: 900px) {
+        .recipes-grid {
+            gap: 1rem;
+        }
+
+        .recipe-card {
+            width: 45vw;
+            min-width: 200px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .recipes-grid {
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .recipe-card {
+            width: 95vw;
+        }
+
+        .recipes-hero {
+            padding: 1.2rem 0.5rem 1rem 0.5rem;
+        }
+    }
+</style>
+<script>
+    function toggleRecipe(btn) {
+        const card = btn.closest('.recipe-card');
+        const details = card.querySelector('.recipe-details');
+        if (details.style.display === 'block') {
+            details.style.display = 'none';
+            btn.innerHTML = 'View Recipe <i class="fas fa-utensils"></i>';
+        } else {
+            // Hide all other details
+            document.querySelectorAll('.recipe-details').forEach(function (other) {
+                other.style.display = 'none';
+                if (other.parentElement.querySelector('.view-recipe-btn')) {
+                    other.parentElement.querySelector('.view-recipe-btn').innerHTML = 'View Recipe <i class="fas fa-utensils"></i>';
+                }
+            });
+            details.style.display = 'block';
+            btn.innerHTML = 'Hide Recipe <i class="fas fa-times"></i>';
+        }
+    }
+</script>
+{% endblock %}

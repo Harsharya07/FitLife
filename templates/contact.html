@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+{% block title %}Contact Us{% endblock %}
+{% block content %}
+<div class="contact-hero-creative">
+    <div class="contact-hero-content">
+        <h2><i class="fas fa-envelope-open-text"></i> Contact Us</h2>
+        <p>We’d love to hear from you! Send us your questions, feedback, or just say hello.</p>
+    </div>
+</div>
+<div class="contact-main">
+    <div class="contact-info fade-in">
+        <h3>Our Info</h3>
+        <ul>
+            <li><i class="fas fa-map-marker-alt"></i> New Delhi</li>
+            <li><i class="fas fa-envelope"></i> harsharya072004@gmail.com</li>
+            <li><i class="fas fa-phone"></i> +91 888 231 *****</li>
+        </ul>
+        <div class="contact-social">
+            <a href="https://www.instagram.com/who_is_harshhh/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="contact-hours">
+            <span class="hours-title"><i class="fas fa-clock"></i> Support Hours:</span>
+            <span>Mon - Fri: 8am - 8pm</span>
+        </div>
+    </div>
+    <div class="contact-form-wrapper fade-in">
+        <form method="POST" class="contact-form">
+            <div class="contact-input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" name="name" placeholder="Your Name" required>
+            </div>
+            <div class="contact-input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" name="email" placeholder="Your Email" required>
+            </div>
+            <div class="contact-input-group">
+                <i class="fas fa-comment-dots"></i>
+                <textarea name="message" placeholder="Your Message" required></textarea>
+            </div>
+            <button type="submit"><i class="fas fa-paper-plane"></i> Send</button>
+        </form>
+    </div>
+</div>
+<style>
+.contact-hero-creative {
+    background: linear-gradient(120deg,rgba(127,83,172,0.96) 0%,rgba(100,125,222,0.85) 100%), 
+        url('https://www.transparenttextures.com/patterns/diamond-upholstery.png');
+    border-radius: 18px;
+    box-shadow: 0 2px 24px rgba(127,83,172,0.08);
+    padding: 2.5rem 1.5rem 2rem 1.5rem;
+    margin: 2rem auto 2rem auto;
+    max-width: 900px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInDown 0.7s;
+}
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-40px);}
+    to { opacity: 1; transform: none;}
+}
+.contact-hero-content {
+    position: relative;
+    z-index: 2;
+}
+.contact-hero-creative h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.1rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 12px #7f53ac55;
+}
+.contact-hero-creative p {
+    font-size: 1.13rem;
+    color: #f4f6fb;
+    margin-bottom: 0.7rem;
+}
+.contact-main {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+}
+.contact-info {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(127,83,172,0.10);
+    padding: 2rem 1.5rem 1.2rem 1.5rem;
+    min-width: 270px;
+    max-width: 320px;
+    margin-bottom: 1.5rem;
+    animation: fadeInLeft 0.8s;
+}
+@keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-40px);}
+    to { opacity: 1; transform: none;}
+}
+.contact-info h3 {
+    color: #7f53ac;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.18rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+.contact-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+}
+.contact-info li {
+    font-size: 1.01rem;
+    color: #444;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+.contact-info i {
+    color: #7f53ac;
+    font-size: 1.08rem;
+}
+.contact-social {
+    margin-bottom: 1rem;
+}
+.contact-social a {
+    color: #1abc9c;
+    margin: 0 0.5rem;
+    font-size: 1.3rem;
+    transition: color 0.2s;
+}
+.contact-social a:hover { color: #7f53ac; }
+.contact-hours {
+    font-size: 0.98rem;
+    color: #888;
+}
+.hours-title {
+    color: #1abc9c;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.1rem;
+}
+.contact-form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeInRight 0.8s;
+    flex: 1;
+    min-width: 320px;
+    max-width: 440px;
+}
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(40px);}
+    to { opacity: 1; transform: none;}
+}
+.contact-form {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(127,83,172,0.10);
+    padding: 2.2rem 2rem 2rem 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+.contact-input-group {
+    position: relative;
+}
+.contact-input-group i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f53ac;
+    font-size: 1.05rem;
+    pointer-events: none;
+}
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 0.8rem 0.8rem 0.8rem 2.5rem;
+    border: 1.5px solid #e0c3fc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #f8f6fc;
+    font-family: inherit;
+    transition: border 0.2s, box-shadow 0.2s;
+    margin-bottom: 0;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border: 1.5px solid #7f53ac;
+    outline: none;
+    box-shadow: 0 0 0 2px #e0c3fc55;
+}
+.contact-form textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+.contact-form button {
+    width: 100%;
+    padding: 0.9rem;
+    background: linear-gradient(90deg, #7f53ac 60%, #647dee 100%);
+    border: none;
+    color: #fff;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.18s, box-shadow 0.18s;
+    margin-top: 0.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    box-shadow: 0 2px 8px rgba(127,83,172,0.11);
+}
+.contact-form button:hover, .contact-form button:focus {
+    background: linear-gradient(90deg, #647dee 60%, #7f53ac 100%);
+    transform: scale(1.03);
+    box-shadow: 0 4px 16px rgba(100,125,222,0.13);
+}
+@media (max-width: 900px) {
+    .contact-main { flex-direction: column; gap: 1.5rem; align-items: center;}
+    .contact-info, .contact-form-wrapper { max-width: 95vw; min-width: unset;}
+}
+@media (max-width: 600px) {
+    .contact-form-wrapper { padding: 0 0.5rem; }
+    .contact-form { padding: 1.2rem 0.5rem 1rem 0.5rem; }
+    .contact-hero-creative { padding: 1.2rem 0.5rem 1rem 0.5rem; }
+    .contact-info { padding: 1.2rem 0.5rem 1rem 0.5rem; }
+}
+</style>
+{% endblock %}

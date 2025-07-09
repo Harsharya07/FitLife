@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+{% block title %}Sign Up{% endblock %}
+{% block content %}
+<div class="auth-bg">
+    <div class="auth-container">
+        <div class="auth-card fade-in-auth">
+            <div class="auth-icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h2>Create Your <span style="color:#7f53ac;">FitLife</span> Account</h2>
+            <form method="POST" class="auth-form" autocomplete="on">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="username" placeholder="Username" required autocomplete="username">
+                </div>
+                <div class="input-group password-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" id="signup-password" placeholder="Password" required autocomplete="new-password" oninput="checkStrength(this)">
+                    <span class="toggle-password" onclick="togglePassword(this)" tabindex="0" aria-label="Show/Hide password"><i class="fas fa-eye"></i></span>
+                </div>
+                <div class="password-strength" id="password-strength"></div>
+                <div class="input-group password-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="confirm_password" id="signup-confirm" placeholder="Confirm Password" required autocomplete="new-password">
+                    <span class="toggle-password" onclick="togglePassword(this)" tabindex="0" aria-label="Show/Hide password"><i class="fas fa-eye"></i></span>
+                </div>
+                <button type="submit">Sign Up</button>
+            </form>
+            <div class="divider"><span>or</span></div>
+            <div class="social-login">
+                <button type="button" class="social-btn google"><i class="fab fa-google"></i> Google</button>
+                <button type="button" class="social-btn facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+            </div>
+            <p class="auth-link">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+        </div>
+    </div>
+</div>
+<style>
+.auth-bg {
+    min-height: 80vh;
+    background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%), url('https://www.transparenttextures.com/patterns/diamond-upholstery.png');
+    background-blend-mode: overlay;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+.auth-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.auth-card {
+    background: rgba(255,255,255,0.97);
+    border-radius: 20px;
+    box-shadow: 0 4px 32px rgba(127,83,172,0.13);
+    padding: 2.5rem 2.2rem 2rem 2.2rem;
+    width: 100%;
+    max-width: 370px;
+    text-align: center;
+    position: relative;
+    animation: fadeInUpAuth 0.7s;
+}
+@keyframes fadeInUpAuth {
+    from { opacity: 0; transform: translateY(40px);}
+    to { opacity: 1; transform: none;}
+}
+.auth-icon {
+    font-size: 2.3rem;
+    color: #7f53ac;
+    margin-bottom: 1rem;
+    animation: pulseIcon 1.8s infinite alternate;
+}
+@keyframes pulseIcon {
+    from { transform: scale(1);}
+    to { transform: scale(1.13);}
+}
+.auth-card h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.4rem;
+    color: #23243a;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+}
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+.input-group {
+    position: relative;
+}
+.input-group i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f53ac;
+    font-size: 1.05rem;
+    pointer-events: none;
+}
+.auth-form input {
+    width: 100%;
+    padding: 0.75rem 2.2rem 0.75rem 2.4rem;
+    border: 1.5px solid #e0c3fc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #f8f6fc;
+    font-family: inherit;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+.auth-form input:focus {
+    border: 1.5px solid #7f53ac;
+    outline: none;
+    box-shadow: 0 0 0 2px #e0c3fc55;
+}
+.password-group {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 1.07rem;
+    cursor: pointer;
+    transition: color 0.16s;
+    z-index: 2;
+}
+.toggle-password:hover, .toggle-password:focus {
+    color: #7f53ac;
+}
+.password-strength {
+    text-align: left;
+    font-size: 0.95rem;
+    margin-top: -0.7rem;
+    margin-bottom: 0.7rem;
+    min-height: 1.2em;
+    font-weight: 700;
+    color: #888;
+    padding-left: 0.2rem;
+}
+.password-strength.weak { color: #e74c3c;}
+.password-strength.medium { color: #f39c12;}
+.password-strength.strong { color: #1abc9c;}
+.auth-form button {
+    width: 100%;
+    padding: 0.8rem;
+    background: linear-gradient(90deg, #7f53ac 60%, #647dee 100%);
+    border: none;
+    color: #fff;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.18s, box-shadow 0.18s;
+    margin-top: 0.2rem;
+    box-shadow: 0 2px 8px rgba(127,83,172,0.11);
+}
+.auth-form button:hover, .auth-form button:focus {
+    background: linear-gradient(90deg, #647dee 60%, #7f53ac 100%);
+    transform: scale(1.03);
+    box-shadow: 0 4px 16px rgba(100,125,222,0.13);
+}
+.divider {
+    margin: 1.2rem 0 1rem 0;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #bbb;
+    font-size: 0.98rem;
+}
+.divider span {
+    background: #fff;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 1;
+}
+.divider:before, .divider:after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #e0c3fc;
+    margin: 0 0.5rem;
+    z-index: 0;
+}
+.social-login {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+.social-btn {
+    flex: 1;
+    padding: 0.55rem 0.7rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+}
+.social-btn.google {
+    background: #db4437;
+}
+.social-btn.facebook {
+    background: #4267B2;
+}
+.social-btn:hover, .social-btn:focus {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+.auth-link {
+    margin-top: 1.2rem;
+    font-size: 0.98rem;
+}
+.auth-link a {
+    color: #7f53ac;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.18s;
+}
+.auth-link a:hover {
+    color: #1abc9c;
+    text-decoration: underline;
+}
+@media (max-width: 480px) {
+    .auth-card { padding: 1.5rem 0.7rem 1.2rem 0.7rem;}
+}
+</style>
+<script>
+function togglePassword(el) {
+    const input = el.parentElement.querySelector('input[type="password"], input[type="text"]');
+    if (input.type === "password") {
+        input.type = "text";
+        el.innerHTML = '<i class="fas fa-eye-slash"></i>';
+    } else {
+        input.type = "password";
+        el.innerHTML = '<i class="fas fa-eye"></i>';
+    }
+}
+function checkStrength(input) {
+    const val = input.value;
+    const indicator = document.getElementById('password-strength');
+    if (!val) {
+        indicator.textContent = "";
+        indicator.className = "password-strength";
+        return;
+    }
+    let score = 0;
+    if (val.length >= 8) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[\W]/.test(val)) score++;
+    if (score <= 1) {
+        indicator.textContent = "Weak password";
+        indicator.className = "password-strength weak";
+    } else if (score === 2 || score === 3) {
+        indicator.textContent = "Medium password";
+        indicator.className = "password-strength medium";
+    } else {
+        indicator.textContent = "Strong password";
+        indicator.className = "password-strength strong";
+    }
+}
+</script>
+{% endblock %}

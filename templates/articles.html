@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+{% block title %}Articles{% endblock %}
+{% block content %}
+<div class="articles-hero-creative">
+    <div class="articles-hero-content">
+        <h2><i class="fas fa-book-open"></i> Fitness Articles</h2>
+        <p>Explore expert advice, wellness tips, and motivational reads to fuel your fitness journey.</p>
+        <form class="articles-search" onsubmit="return false;">
+            <input type="text" placeholder="Search articles..." aria-label="Search articles">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+        <div class="articles-categories">
+            <span class="cat-chip active">All</span>
+            <span class="cat-chip">Motivation</span>
+            <span class="cat-chip">Nutrition</span>
+            <span class="cat-chip">Training</span>
+            <span class="cat-chip">Wellness</span>
+            <span class="cat-chip">Latest</span>
+        </div>
+    </div>
+</div>
+<div class="articles-grid">
+    <article class="article-card fade-in">
+        <img src="https://domf5oio6qrcr.cloudfront.net/medialibrary/16771/p5-laughteryoga-n0725-gi626954430.jpg" alt="Try this: Laughter yoga is nothing to joke about">
+        <div class="article-content">
+            <div class="article-badges">
+                <span class="badge motivation">Motivation</span>
+                <span class="badge wellness">Wellness</span>
+            </div>
+            <h3>
+                <a href="https://www.health.harvard.edu/exercise-and-fitness/try-this-laughter-yoga-is-nothing-to-joke-about" target="_blank">
+                    Try this: Laughter yoga is nothing to joke about
+                </a>
+            </h3>
+            <div class="article-meta">
+                <span class="author"><i class="fas fa-user"></i> Harvard Health</span>
+                <span class="date"><i class="fas fa-calendar-alt"></i> July 2025</span>
+            </div>
+            <p>Laughter yoga blends traditional yoga movements with laughter therapy to offer a playful approach to stress management. The group sessions consist of physical exercises and stretches, relaxation and breathing techniques, and forced smiling and vigorous laughter.</p>
+        </div>
+    </article>
+    <article class="article-card fade-in">
+        <img src="https://domf5oio6qrcr.cloudfront.net/medialibrary/16764/p2-weightedvest-wl0725-gi1284610287.jpg" alt="What are the benefits of walking with a weighted vest?">
+        <div class="article-content">
+            <div class="article-badges">
+                <span class="badge training">Training</span>
+            </div>
+            <h3>
+                <a href="https://www.health.harvard.edu/exercise-and-fitness/what-are-the-benefits-of-walking-with-a-weighted-vest" target="_blank">
+                    What are the benefits of walking with a weighted vest?
+                </a>
+            </h3>
+            <div class="article-meta">
+                <span class="author"><i class="fas fa-user"></i> Harvard Health</span>
+                <span class="date"><i class="fas fa-calendar-alt"></i> July 2025</span>
+            </div>
+            <p>Walking while wearing a weighted vest or backpack can help build muscle strength and bone density, improve the heart’s pumping ability, expand lung capacity, and burn additional calories. People with neck or back pain should not wear a weighted vest.</p>
+        </div>
+    </article>
+    <article class="article-card fade-in">
+        <img src="https://domf5oio6qrcr.cloudfront.net/medialibrary/16625/p3-resistancetraining-n0626-gi1667647131.jpg" alt="Get a lift from resistance training">
+        <div class="article-content">
+            <div class="article-badges">
+                <span class="badge training">Training</span>
+                <span class="badge wellness">Wellness</span>
+            </div>
+            <h3>
+                <a href="https://www.health.harvard.edu/exercise-and-fitness/get-a-lift-from-resistance-training" target="_blank">
+                    Get a lift from resistance training
+                </a>
+            </h3>
+            <div class="article-meta">
+                <span class="author"><i class="fas fa-user"></i> Harvard Health</span>
+                <span class="date"><i class="fas fa-calendar-alt"></i> June 2025</span>
+            </div>
+            <p>National guidelines recommend at least two sessions of muscle-strengthening resistance training each week. Resistance training offers an array of benefits, including increased muscle strength, improved heart health, stronger bones, better mobility, and greater brain function.</p>
+        </div>
+    </article>
+    <article class="article-card fade-in">
+        <img src="https://domf5oio6qrcr.cloudfront.net/medialibrary/15480/d43fec1e-6469-421a-99ea-3e4f5212d412.jpg" alt="Does exercising at night affect sleep?">
+        <div class="article-content">
+            <div class="article-badges">
+                <span class="badge wellness">Wellness</span>
+            </div>
+            <h3>
+                <a href="https://www.health.harvard.edu/staying-healthy/does-exercising-at-night-affect-sleep" target="_blank">
+                    Does exercising at night affect sleep?
+                </a>
+            </h3>
+            <div class="article-meta">
+                <span class="author"><i class="fas fa-user"></i> Harvard Health</span>
+                <span class="date"><i class="fas fa-calendar-alt"></i> May 2025</span>
+            </div>
+            <p>Traditionally, experts have recommended not exercising at night as part of good sleep hygiene. However, a small study suggests that some people can exercise in the evening as long as they avoid vigorous activity for at least one hour before bedtime.</p>
+        </div>
+    </article>
+    <article class="article-card fade-in">
+        <img src="https://domf5oio6qrcr.cloudfront.net/medialibrary/15328/261d50dc-9a68-4c8d-b141-2f8ca836e04a.jpg" alt="Incentives help people become more active">
+        <div class="article-content">
+            <div class="article-badges">
+                <span class="badge motivation">Motivation</span>
+                <span class="badge latest">Latest</span>
+            </div>
+            <h3>
+                <a href="https://www.health.harvard.edu/exercise-and-fitness/incentives-help-people-become-more-active" target="_blank">
+                    Incentives help people become more active
+                </a>
+            </h3>
+            <div class="article-meta">
+                <span class="author"><i class="fas fa-user"></i> Harvard Health</span>
+                <span class="date"><i class="fas fa-calendar-alt"></i> April 2025</span>
+            </div>
+            <p>A 2024 study found that adults can benefit from receiving financial or game-like incentives to become more active.</p>
+        </div>
+    </article>
+    <article class="article-card fade-in">
+        <img src="https://domf5oio6qrcr.cloudfront.net/medialibrary/15332/53dc5ddd-0d7f-4236-9bc6-36c46674f747.jpg" alt="Taking the Presidential Physical Fitness Test">
+        <div class="article-content">
+            <div class="article-badges">
+                <span class="badge training">Training</span>
+                <span class="badge latest">Latest</span>
+            </div>
+            <h3>
+                <a href="https://www.health.harvard.edu/exercise-and-fitness/taking-the-presidential-physical-fitness-test" target="_blank">
+                    Taking the Presidential Physical Fitness Test
+                </a>
+            </h3>
+            <div class="article-meta">
+                <span class="author"><i class="fas fa-user"></i> Harvard Health</span>
+                <span class="date"><i class="fas fa-calendar-alt"></i> March 2025</span>
+            </div>
+            <p>The original Presidential Physical Fitness Test consisted of five exercises: a one-mile run, pull-ups or push-ups, sit-ups, shuttle run, and sit-and-reach. With some modifications, older adults can use the test to assess a baseline of their fitness and identify areas to improve.</p>
+        </div>
+    </article>
+</div>
+<style>
+.articles-hero-creative {
+    background: linear-gradient(120deg,rgba(127,83,172,0.96) 0%,rgba(100,125,222,0.85) 100%), 
+        url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+    border-radius: 18px;
+    box-shadow: 0 2px 24px rgba(127,83,172,0.08);
+    padding: 2.5rem 1.5rem 2rem 1.5rem;
+    margin: 2rem auto 2rem auto;
+    max-width: 1100px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.articles-hero-content {
+    position: relative;
+    z-index: 2;
+}
+.articles-hero-creative h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.3rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 12px #7f53ac55;
+}
+.articles-hero-creative p {
+    font-size: 1.13rem;
+    color: #f4f6fb;
+    margin-bottom: 1.5rem;
+}
+.articles-search {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    gap: 0.5rem;
+}
+.articles-search input[type="text"] {
+    padding: 0.7rem 1rem;
+    border-radius: 18px 0 0 18px;
+    border: none;
+    font-size: 1rem;
+    width: 220px;
+    background: #fff;
+    color: #23243a;
+    outline: none;
+}
+.articles-search button {
+    padding: 0.7rem 1.1rem;
+    border-radius: 0 18px 18px 0;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.articles-search button:hover { background: #23cba7; }
+.articles-categories {
+    display: flex;
+    justify-content: center;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.3rem;
+}
+.cat-chip {
+    display: inline-block;
+    background: #fff;
+    color: #7f53ac;
+    font-weight: 700;
+    padding: 0.4rem 1.2rem;
+    border-radius: 16px;
+    font-size: 0.98rem;
+    cursor: pointer;
+    margin-bottom: 0.2rem;
+    transition: background 0.18s, color 0.18s;
+    border: 2px solid #e0c3fc;
+}
+.cat-chip.active, .cat-chip:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+.articles-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto 2.5rem auto;
+}
+.article-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(127,83,172,0.10);
+    overflow: hidden;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.17s, box-shadow 0.17s, background 0.18s;
+    animation: fadeInUp 0.7s;
+    position: relative;
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px);}
+    to { opacity: 1; transform: none;}
+}
+.article-card:hover {
+    background: linear-gradient(120deg,#e0c3fc 70%,#8ec5fc 100%);
+    transform: translateY(-7px) scale(1.04);
+    box-shadow: 0 8px 32px rgba(127,83,172,0.14);
+}
+.article-card img {
+    width: 100%;
+    height: 145px;
+    object-fit: cover;
+    border-radius: 16px 16px 0 0;
+}
+.article-content {
+    padding: 1.1rem 1rem 1.2rem 1rem;
+}
+.article-badges {
+    margin-bottom: 0.5rem;
+}
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-right: 0.4rem;
+    margin-bottom: 0.2rem;
+    color: #fff;
+}
+.badge.motivation { background: #1abc9c; }
+.badge.training { background: #647dee; }
+.badge.wellness { background: #7f53ac; }
+.badge.latest { background: #ffb347; color: #23243a;}
+.article-content h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 0.4rem;
+    color: #7f53ac;
+}
+.article-content h3 a {
+    color: #7f53ac;
+    text-decoration: none;
+    transition: color 0.18s;
+}
+.article-content h3 a:hover { color: var(--accent);}
+.article-meta {
+    font-size: 0.93rem;
+    color: #888;
+    margin-bottom: 0.5rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+}
+.article-meta i { margin-right: 0.3rem;}
+.article-content p {
+    font-size: 0.99rem;
+    color: #444;
+}
+@media (max-width: 1100px) {
+    .articles-grid { gap: 1rem; }
+    .article-card { width: 90vw; max-width: 350px; }
+    .articles-hero-creative { padding: 1.5rem 0.5rem 1.2rem 0.5rem;}
+}
+@media (max-width: 600px) {
+    .articles-grid { flex-direction: column; gap: 1.2rem; align-items: center;}
+    .articles-hero-creative { padding: 1.2rem 0.2rem 1rem 0.2rem; }
+}
+</style>
+{% endblock %}

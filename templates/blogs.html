@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% block title %}Blogs{% endblock %}
+{% block content %}
+<div class="blogs-hero-creative">
+    <div class="blogs-hero-content">
+        <h2><i class="fas fa-users"></i> Healthy Blogs</h2>
+        <p>Real stories, expert tips, and community inspiration to keep you motivated on your fitness journey.</p>
+        <div class="blogs-categories">
+            <span class="blog-chip active">All</span>
+            <span class="blog-chip">Motivation</span>
+            <span class="blog-chip">Nutrition</span>
+            <span class="blog-chip">Community</span>
+            <span class="blog-chip">Wellness</span>
+        </div>
+    </div>
+</div>
+<div class="blogs-grid">
+    <article class="blog-card fade-in">
+        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80" alt="Run Eat Repeat">
+        <div class="blog-content">
+            <div class="blog-meta-row">
+                <img class="author-avatar" src="https://detailed.com/images/run-eat-repeat.jpg" alt="Priya S. avatar">
+                <div>
+                    <span class="blog-meta-author">Rank 1 </span>
+                    <span class="blog-meta-date">161 Mentions</span>
+                </div>
+                <span class="blog-tag motivation">Motivation</span>
+            </div>
+            <h3>Run Eat Repeat</h3>
+            <p>Run Eat Repeat is a site which covers running, recipes, weight loss and lifestyle topics through it's articles and podcast series.</p>
+            <a class="read-more-btn" href="https://runeatrepeat.com/blog/" tabindex="0">Read More <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </article>
+    <article class="blog-card fade-in">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80" alt="Muscle and Fitness">
+        <div class="blog-content">
+            <div class="blog-meta-row">
+                <img class="author-avatar" src="https://detailed.com/images/muscle-and-fitness.jpg" alt="Muscle and Fitness">
+                <div>
+                    <span class="blog-meta-author">Rank 2</span>
+                    <span class="blog-meta-date">122 Mentions</span>
+                </div>
+                <span class="blog-tag nutrition">Muscle</span>
+            </div>
+            <h3>Muscle and Fitness</h3>
+            <p>Muscle and Fitness provides it's readers with practical workout and nutrition advice that they can follow to get in better shape.</p>
+            <a class="read-more-btn" href="https://www.muscleandfitness.com/" tabindex="0">Read More <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </article>
+    <article class="blog-card fade-in">
+        <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Breaking Muscle">
+        <div class="blog-content">
+            <div class="blog-meta-row">
+                <img class="author-avatar" src="https://detailed.com/images/born-fitness.jpg" alt="Breaking Muscle">
+                <div>
+                    <span class="blog-meta-author">Rank 3</span>
+                    <span class="blog-meta-date">77 Mentions</span>
+                </div>
+                <span class="blog-tag community">Gym</span>
+            </div>
+            <h3>Breaking Muscle</h3>
+            <p>BreakingMuscle provides advice and information on fitness, workouts and healthy eating, as well as selling coaching tutorials.</p>
+            <a class="read-more-btn" href="https://breakingmuscle.com/" tabindex="0">Read More <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </article>
+    <article class="blog-card fade-in">
+        <img src="https://detailed.com/images/bony-to-beastly.jpg" alt="Breaking Muscle">
+        <div class="blog-content">
+            <div class="blog-meta-row">
+                <img class="author-avatar" src="https://detailed.com/images/nasm.jpg" alt="Much More">
+                <div>
+                    <span class="blog-meta-author">Click Read More to View more</span>
+                    <span class="blog-meta-date">The best Blogs here</span>
+                </div>
+                <span class="blog-tag community">All</span>
+            </div>
+            <h3>Best blogs</h3>
+            <p>A Foodie Stays Fit is running and lifestyle blog which features stories, advice and recommended products.</p>
+            <a class="read-more-btn" href="https://detailed.com/fitness-blogs/" tabindex="0">Read More <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </article>
+</div>
+<style>
+.blogs-hero-creative {
+    background: linear-gradient(120deg,rgba(127,83,172,0.96) 0%,rgba(100,125,222,0.85) 100%), 
+        url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+    border-radius: 18px;
+    box-shadow: 0 2px 24px rgba(127,83,172,0.08);
+    padding: 2.5rem 1.5rem 2rem 1.5rem;
+    margin: 2rem auto 2rem auto;
+    max-width: 1100px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.blogs-hero-content {
+    position: relative;
+    z-index: 2;
+}
+.blogs-hero-creative h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.3rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 12px #7f53ac55;
+}
+.blogs-hero-creative p {
+    font-size: 1.13rem;
+    color: #f4f6fb;
+    margin-bottom: 1.3rem;
+}
+.blogs-categories {
+    display: flex;
+    justify-content: center;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.3rem;
+}
+.blog-chip {
+    display: inline-block;
+    background: #fff;
+    color: #7f53ac;
+    font-weight: 700;
+    padding: 0.4rem 1.2rem;
+    border-radius: 16px;
+    font-size: 0.98rem;
+    cursor: pointer;
+    margin-bottom: 0.2rem;
+    transition: background 0.18s, color 0.18s;
+    border: 2px solid #e0c3fc;
+}
+.blog-chip.active, .blog-chip:hover {
+    background: #1abc9c;
+    color: #fff;
+    border-color: #1abc9c;
+}
+.blogs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    max-width: 1100px;
+    margin: 0 auto 2.5rem auto;
+}
+.blog-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(127,83,172,0.10);
+    overflow: hidden;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.17s, box-shadow 0.17s, background 0.18s;
+    animation: fadeInUp 0.7s;
+    position: relative;
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px);}
+    to { opacity: 1; transform: none;}
+}
+.blog-card:hover {
+    background: linear-gradient(120deg,#e0c3fc 70%,#8ec5fc 100%);
+    transform: translateY(-7px) scale(1.04);
+    box-shadow: 0 8px 32px rgba(127,83,172,0.14);
+}
+.blog-card img {
+    width: 100%;
+    height: 145px;
+    object-fit: cover;
+    border-radius: 16px 16px 0 0;
+}
+.blog-content {
+    padding: 1.1rem 1rem 1.2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+.blog-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.3rem;
+}
+.author-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e0c3fc;
+}
+.blog-meta-author {
+    font-size: 0.98rem;
+    color: #7f53ac;
+    font-weight: 700;
+    display: block;
+}
+.blog-meta-date {
+    font-size: 0.91rem;
+    color: #888;
+    display: block;
+}
+.blog-tag {
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 0.2rem 0.8rem;
+    margin-left: auto;
+    color: #fff;
+}
+.blog-tag.motivation { background: #1abc9c; }
+.blog-tag.nutrition { background: #7f53ac; }
+.blog-tag.community { background: #647dee; }
+.blog-tag.wellness { background: #ffb347; color: #23243a;}
+.blog-content h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+    color: #7f53ac;
+}
+.blog-content p {
+    font-size: 0.99rem;
+    color: #444;
+}
+.read-more-btn {
+    display: inline-block;
+    margin-top: 0.4rem;
+    background: #1abc9c;
+    color: #fff;
+    padding: 0.5rem 1.2rem;
+    border-radius: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.18s, color 0.18s;
+    font-size: 0.98rem;
+}
+.read-more-btn:hover, .read-more-btn:focus {
+    background: #7f53ac;
+    color: #fff;
+}
+@media (max-width: 900px) {
+    .blogs-grid { gap: 1rem; }
+    .blog-card { width: 90vw; max-width: 350px; }
+    .blogs-hero-creative { padding: 1.5rem 0.5rem 1.2rem 0.5rem;}
+}
+@media (max-width: 600px) {
+    .blogs-grid { flex-direction: column; gap: 1.2rem; align-items: center;}
+    .blogs-hero-creative { padding: 1.2rem 0.2rem 1rem 0.2rem; }
+}
+</style>
+{% endblock %}

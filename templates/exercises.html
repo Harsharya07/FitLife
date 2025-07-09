@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+{% block title %}Exercises{% endblock %}
+{% block content %}
+<div class="exercises-hero">
+    <h2><i class="fas fa-dumbbell"></i> Exercises by Muscle Group</h2>
+    <p>Browse effective exercises by target area. Click "View Tips" for expert form and safety advice!</p>
+</div>
+
+{% set categories = [
+    ('chest', 'Chest', 'fa-heartbeat', [
+        ('Push-ups', 'https://t3.ftcdn.net/jpg/03/45/55/52/360_F_345555211_mKLmHfJaWhSIebtBGVjWu6CbvrVVQQC3.jpg', '3 sets of 15 reps. Classic chest builder, focus on form and full range of motion.', ['Bodyweight', 'Beginner'], 'fa-person', 'Keep elbows at 45°, body straight, and lower chest just above the floor.'),
+        ('Dumbbell Chest Press', 'https://www.newbodyplan.co.uk/wp-content/uploads/2020/12/Dumbbell-bench-press-1.jpg', '3 sets of 12 reps. Press dumbbells above chest, lower slowly. Squeeze at the top.', ['Equipment', 'Intermediate'], 'fa-dumbbell', 'Keep feet flat, wrists straight, and avoid locking elbows at the top.'),
+        ('Incline Push-up', 'https://cdn.muscleandstrength.com/sites/default/files/incline-push-up-1.jpg', '3 sets of 12 reps. Feet on floor, hands on bench. Easier for beginners.', ['Bodyweight', 'Beginner'], 'fa-person', 'Maintain a straight line from head to heels, lower chest to the bench.'),
+        ('Chest Fly', 'https://s3assets.skimble.com/assets/1477707/image_iphone.jpg', '3 sets of 10 reps. Open arms wide with dumbbells, squeeze at top.', ['Equipment', 'Intermediate'], 'fa-dumbbell', 'Keep a slight bend in elbows, control weights on the way down.'),
+    ]),
+    ('back', 'Back', 'fa-arrow-up', [
+        ('Renegade Row', 'https://hips.hearstapps.com/hmg-prod/images/2022-bicycling-inhouseshoots-ep25-renegaderows-ph-v01-index-1659470173.jpg', '3 sets of 10 reps/side. Row dumbbell from plank, keep hips stable.', ['Equipment', 'Intermediate'], 'fa-dumbbell', 'Keep core tight, avoid hips rotating, and pull elbow close to your side.'),
+        ('Pull-ups', 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/mh0418-fit-pul-01-1558551798.jpg', '3 sets of 8 reps. Pull chin above bar, lower with control.', ['Bodyweight', 'Advanced'], 'fa-person', 'Engage your lats, avoid swinging, and use a full range of motion.'),
+        ('Superman', 'https://cdn.mos.cms.futurecdn.net/Pd9JXrxYreCgvAZbGzpQeP.jpg', '3 sets of 15 reps. Lie face down, lift arms and legs, hold.', ['Bodyweight', 'Beginner'], 'fa-person', 'Squeeze glutes and back, keep neck neutral, and hold for 2 seconds.'),
+        ('Lat Pulldown', 'https://cdn.mos.cms.futurecdn.net/5xUkd599jcEWiEStvxAEPU-1200-80.jpg', '3 sets of 10 reps. Pull bar to chest, squeeze shoulder blades.', ['Equipment', 'Intermediate'], 'fa-dumbbell', 'Don’t lean back, pull elbows down and back, control the bar up.'),
+    ]),
+    ('shoulders', 'Shoulders', 'fa-arrows-alt-v', [
+        ('Shoulder Press', 'https://i.pinimg.com/originals/b9/ac/89/b9ac899d71a083ae28e6c47af684eaa3.jpg', '3 sets of 12 reps. Press dumbbells overhead, avoid arching your back.', ['Equipment', 'Intermediate'], 'fa-dumbbell', 'Keep core braced, wrists stacked, and press straight up.'),
+        ('Lateral Raise', 'https://th.bing.com/th/id/R.3382c92fb90ec992313687652a9ddf5c?rik=nW9iW2yvfOw8EA&riu=http%3a%2f%2fwww.dmoose.com%2fcdn%2fshop%2farticles%2fDumbbell_Lateral_Raise.jpg%3fv%3d1701860183&ehk=ACldfAdJ43%2fizDR13D7BBJmFr%2btd3NJ355YMRk63mLQ%3d&risl=&pid=ImgRaw&r=0', '3 sets of 15 reps. Lift dumbbells to the side, keep elbows slightly bent.', ['Equipment', 'Beginner'], 'fa-dumbbell', 'Lift to shoulder height, lead with elbows, avoid swinging.'),
+        ('Front Raise', 'https://s3.amazonaws.com/prod.skimble/assets/1102379/image_iphone.jpg', '3 sets of 12 reps. Raise dumbbells in front to shoulder height.', ['Equipment', 'Beginner'], 'fa-dumbbell', 'Keep arms straight, raise slowly, don’t use momentum.'),
+        ('Pike Push-up', 'https://cdn.mos.cms.futurecdn.net/dqo8D6EFWr4BUsALeXUnRM-970-80.jpg', '3 sets of 10 reps. Hips high, head to floor, push up.', ['Bodyweight', 'Intermediate'], 'fa-person', 'Keep hips high, elbows at 45°, head between hands at bottom.'),
+    ]),
+    ('arms', 'Arms (Biceps & Triceps)', 'fa-hand-rock', [
+        ('Bicep Curl', 'https://exercise.co.uk/wp-content/uploads/2023/02/Proper-Form-Series-Bicep-Curls-Main.jpg', '3 sets of 15 reps. Curl dumbbells up, squeeze at the top, lower slowly.', ['Equipment', 'Beginner'], 'fa-dumbbell', 'Keep elbows at your sides, don’t swing, lower with control.'),
+        ('Tricep Dips', 'https://hips.hearstapps.com/hmg-prod/images/dips-1608221119.jpg?resize=980:*', '3 sets of 12 reps. Lower body by bending elbows, push back up.', ['Bodyweight', 'Intermediate'], 'fa-person', 'Keep elbows close, shoulders down, avoid locking elbows at top.'),
+        ('Hammer Curl', 'https://cdn.shopify.com/s/files/1/1497/9682/articles/1_783746b7-2b4d-4567-880e-9d59523d73f9.jpg?v=1648912654', '3 sets of 12 reps. Palms facing in, curl up.', ['Equipment', 'Beginner'], 'fa-dumbbell', 'Keep wrists neutral, elbows at sides, control the weight.'),
+        ('Diamond Push-up', 'https://res.cloudinary.com/peloton-cycle/image/fetch/f_auto,c_limit,w_3840,q_90/https://images.ctfassets.net/6ilvqec50fal/JdeBsAsNI2XepyM4IDL1U/ef2c96e26f7c3af5bce6db428cd1237f/Screenshot_2024-03-21_at_12.36.05_PM.png', '3 sets of 10 reps. Hands close, target triceps.', ['Bodyweight', 'Advanced'], 'fa-person', 'Form a diamond with hands, keep elbows close, lower chest to hands.'),
+    ]),
+    ('abs', 'Abs', 'fa-star', [
+        ('Plank', 'https://static.independent.co.uk/s3fs-public/thumbnails/image/2019/04/02/16/istock-526131316.jpg', 'Hold for 45 seconds, 3 rounds. Engage your core, keep your body in a straight line.', ['Bodyweight', 'All Levels'], 'fa-person', 'Keep body straight, elbows under shoulders, don’t let hips sag.'),
+        ('Bicycle Crunches', 'https://tse3.mm.bing.net/th/id/OIP.T-x0ks7OSCSq0HayUM_Z9AAAAA?rs=1&pid=ImgDetMain&o=7&rm=3', '3 sets of 20 reps. Alternate elbows to opposite knees, keep your core engaged.', ['Bodyweight', 'Beginner'], 'fa-person', 'Move slowly, extend legs fully, twist from the torso.'),
+        ('Russian Twist', 'https://tse4.mm.bing.net/th/id/OIP.5L1xe-eP-y92fdKBii9V7gHaGs?rs=1&pid=ImgDetMain&o=7&rm=3', '3 sets of 16 reps. Twist torso side to side, keep feet lifted.', ['Bodyweight', 'Intermediate'], 'fa-person', 'Keep back straight, twist shoulders not just arms, tap floor lightly.'),
+        ('Leg Raises', 'https://tse1.explicit.bing.net/th/id/OIP.DkdgdQHoDvZIR4Ql1t2fDwHaFM?rs=1&pid=ImgDetMain&o=7&rm=3', '3 sets of 12 reps. Lie on back, lift legs up, lower slowly.', ['Bodyweight', 'Intermediate'], 'fa-person', 'Keep lower back pressed to floor, move slowly, don’t swing legs.'),
+    ]),
+    ('legs', 'Legs', 'fa-running', [
+        ('Squats', 'https://th.bing.com/th/id/R.327180e0cc8f55f4ddbacc67fa88092f?rik=Lqu17KIV%2fGrKaw&riu=http%3a%2f%2fwww.dmoose.com%2fcdn%2fshop%2farticles%2fbarbell_squat.jpg%3fv%3d1653488200&ehk=%2f8GyzR85OjUd%2fBOcCHTFQJJ%2bAO%2bsQb%2bAhzFVIGKI1rI%3d&risl=&pid=ImgRaw&r=0', '3 sets of 20 reps. Keep your chest up, back straight, and knees behind your toes.', ['Bodyweight', 'Beginner'], 'fa-person', 'Feet shoulder-width, knees track toes, keep chest up.'),
+        ('Glute Bridge', 'https://i0.wp.com/rehabrenegade.com/wp-content/uploads/2018/03/Bridge.jpg?resize=800%2C800&ssl=1', '3 sets of 15 reps. Lift hips up, squeeze glutes at the top, then lower.', ['Bodyweight', 'All Levels'], 'fa-person', 'Push through heels, squeeze glutes, avoid arching lower back.'),
+        ('Lunges', 'https://tse1.mm.bing.net/th/id/OIP.hjqAgVTZ2B-IAW0vG0M-3wHaJ3?rs=1&pid=ImgDetMain&o=7&rm=3', '3 sets of 12 reps/leg. Step forward, lower until both knees are at 90°.', ['Bodyweight', 'Beginner'], 'fa-person', 'Keep torso upright, front knee over ankle, push back to start.'),
+        ('Calf Raise', 'https://tse3.mm.bing.net/th/id/OIP.66breHJX0nCv-lNYfIGL-gHaHa?rs=1&pid=ImgDetMain&o=7&rm=3', '3 sets of 20 reps. Stand tall, rise onto toes, lower slowly.', ['Bodyweight', 'Beginner'], 'fa-person', 'Pause at the top, lower heels below step if possible, use full range.'),
+    ]),
+] %}
+{% for cat in categories %}
+<div class="exercise-category {{ cat[0] }} animate-section">
+    <div class="category-header"><i class="fas {{ cat[2] }}"></i> {{ cat[1] }}</div>
+    <div class="exercises-grid">
+        {% for ex in cat[3] %}
+        <div class="exercise-card">
+            <div class="exercise-img-wrap">
+                <img src="{{ ex[1] }}" alt="{{ ex[0] }}">
+                <div class="exercise-overlay">
+                    <button class="tips-btn" onclick="toggleTip(this)"><i class="fas fa-info-circle"></i> View Tips</button>
+                </div>
+            </div>
+            <h3>{{ ex[0] }}</h3>
+            <div class="exercise-tags">
+                {% for tag in ex[3] %}
+                <span class="ex-tag">{{ tag }}</span>
+                {% endfor %}
+                <span class="ex-equip" title="Equipment"><i class="fas {{ ex[4] }}"></i></span>
+            </div>
+            <p>{{ ex[2] }}</p>
+            <div class="exercise-tip">
+                <span class="tip-label"><i class="fas fa-lightbulb"></i> Tip:</span>
+                <span class="tip-text">{{ ex[5] }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+
+<style>
+.exercises-hero {
+    background: linear-gradient(90deg, #e0c3fc 0%, #8ec5fc 100%);
+    border-radius: 18px;
+    box-shadow: 0 2px 24px rgba(127,83,172,0.08);
+    padding: 2rem 1.5rem 1.2rem 1.5rem;
+    margin: 2rem auto 2rem auto;
+    max-width: 900px;
+    text-align: center;
+}
+.exercises-hero h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.1rem;
+    font-weight: 900;
+    color: #7f53ac;
+    margin-bottom: 0.5rem;
+}
+.exercises-hero p {
+    font-size: 1.13rem;
+    color: #444;
+}
+.exercise-category {
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s, transform 0.7s;
+    background: linear-gradient(90deg, #f9f7fd 70%, #e0c3fc 100%);
+    border-radius: 16px;
+    padding-bottom: 1.5rem;
+}
+.exercise-category.visible {
+    opacity: 1;
+    transform: none;
+}
+.category-header {
+    font-size: 1.3rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 12px;
+    color: #fff;
+    background: linear-gradient(90deg, #7f53ac 60%, #1abc9c 100%);
+    display: inline-block;
+    box-shadow: 0 2px 12px rgba(127,83,172,0.10);
+    margin-top: 1.5rem;
+}
+.category-header i {
+    margin-right: 0.7rem;
+}
+.exercises-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.exercise-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(127,83,172,0.10);
+    padding: 1.3rem 1rem 1.3rem 1rem;
+    text-align: center;
+    width: 260px;
+    transition: transform 0.17s, box-shadow 0.17s, background 0.18s;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #e0c3fc;
+    z-index: 1;
+}
+.exercise-card:hover {
+    background: linear-gradient(120deg,#e0c3fc 70%,#8ec5fc 100%);
+    transform: translateY(-7px) scale(1.04);
+    box-shadow: 0 8px 32px rgba(127,83,172,0.14);
+    color: #7f53ac;
+    border-color: #7f53ac;
+    z-index: 2;
+}
+.exercise-img-wrap {
+    position: relative;
+}
+.exercise-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 12px rgba(127,83,172,0.07);
+    transition: opacity 0.2s;
+}
+.exercise-overlay {
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    background: rgba(127,83,172,0.72);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    transition: opacity 0.18s;
+    cursor: pointer;
+}
+.exercise-card:hover .exercise-overlay,
+.exercise-card .exercise-overlay:focus-within {
+    opacity: 1;
+}
+.tips-btn {
+    background: #fff;
+    color: #7f53ac;
+    border: none;
+    border-radius: 18px;
+    font-weight: 700;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(127,83,172,0.13);
+    transition: background 0.18s, color 0.18s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.tips-btn:hover, .tips-btn:focus {
+    background: #1abc9c;
+    color: #fff;
+}
+.exercise-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.18rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: #7f53ac;
+}
+.exercise-tags {
+    margin-bottom: 0.5rem;
+}
+.ex-tag {
+    display: inline-block;
+    background: #e0c3fc;
+    color: #7f53ac;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.18rem 0.7rem;
+    border-radius: 12px;
+    margin-right: 0.3rem;
+    margin-bottom: 0.2rem;
+}
+.ex-equip {
+    color: #1abc9c;
+    font-size: 1.1rem;
+    vertical-align: middle;
+    margin-left: 0.3rem;
+}
+.exercise-card p {
+    font-size: 0.99rem;
+    color: #444;
+}
+.exercise-tip {
+    display: none;
+    background: #f8f6fc;
+    border-left: 4px solid #7f53ac;
+    border-radius: 8px;
+    margin: 0.8rem 0 0 0;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.97rem;
+    color: #23243a;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(127,83,172,0.06);
+    animation: fadeInTip 0.3s;
+}
+@keyframes fadeInTip {
+    from { opacity: 0; transform: translateY(16px);}
+    to { opacity: 1; transform: none;}
+}
+.tip-label {
+    color: #1abc9c;
+    font-weight: 700;
+    margin-right: 0.4rem;
+}
+@media (max-width: 900px) {
+    .exercises-grid { gap: 1rem; }
+    .exercise-card { width: 45vw; min-width: 180px; }
+}
+@media (max-width: 600px) {
+    .exercises-grid { flex-direction: column; gap: 1.2rem; }
+    .exercise-card { width: 90vw; }
+    .exercises-hero { padding: 1.2rem 0.5rem 1rem 0.5rem; }
+}
+</style>
+<script>
+function toggleTip(btn) {
+    const card = btn.closest('.exercise-card');
+    const tip = card.querySelector('.exercise-tip');
+    if (tip.style.display === 'block') {
+        tip.style.display = 'none';
+        btn.innerHTML = '<i class="fas fa-info-circle"></i> View Tips';
+    } else {
+       
+        card.parentElement.querySelectorAll('.exercise-tip').forEach(function(otherTip) {
+            if (otherTip !== tip) {
+                otherTip.style.display = 'none';
+                otherTip.parentElement.querySelector('.tips-btn').innerHTML = '<i class="fas fa-info-circle"></i> View Tips';
+            }
+        });
+        tip.style.display = 'block';
+        btn.innerHTML = '<i class="fas fa-times"></i> Hide Tips';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate each section on scroll
+    function revealSections() {
+        document.querySelectorAll('.animate-section').forEach(function(sec) {
+            const rect = sec.getBoundingClientRect();
+            if(rect.top < window.innerHeight - 80) {
+                sec.classList.add('visible');
+            }
+        });
+    }
+    revealSections();
+    window.addEventListener('scroll', revealSections);
+});
+</script>
+{% endblock %}
