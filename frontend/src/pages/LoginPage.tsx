@@ -5,6 +5,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 import { formatApiError } from '../lib/api';
+import FitLifeLogo from '../components/FitLifeLogo';
 
 export default function LoginPage() {
   const { login, user, loading } = useAuth();
