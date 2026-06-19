@@ -93,8 +93,13 @@ export default function ChatPanel({ aiStatus, compact = false }: ChatPanelProps)
         toast('Generation stopped');
       } else {
         setMessages((prev) => prev.filter((m) => m.id !== userMsg.id && m.id !== streamingId));
-        const msg = axios.isAxiosError(err) ? err.response?.data?.detail : 'Chat failed';
-        toast.error(typeof msg === 'string' ? msg : 'Failed to get AI response');
+        const msg =
+          err instanceof Error && err.message
+            ? err.message
+            : axios.isAxiosError(err)
+              ? (typeof err.response?.data?.detail === 'string' ? err.response.data.detail : 'Chat failed')
+              : 'Chat failed';
+        toast.error(msg);
       }
     } finally {
       setStreaming(false);

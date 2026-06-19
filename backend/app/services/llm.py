@@ -12,6 +12,24 @@ Always remind users to consult a doctor for medical conditions. Be concise but t
 Never invent dangerous advice. Tailor responses to the user's profile when provided."""
 
 
+def _gemini_error_message(status_code: int, body: str) -> str:
+    try:
+        data = json.loads(body)
+        msg = data.get("error", {}).get("message", "")
+        if msg:
+            if "quota" in msg.lower() or status_code == 429:
+                return (
+                    "Gemini API quota exceeded. Use a valid key from Google AI Studio (starts with AIzaSy), "
+                    "try GEMINI_MODEL=gemini-2.0-flash-lite, or check billing at ai.google.dev."
+                )
+            if "API key not valid" in msg or "invalid" in msg.lower():
+                return "Invalid Gemini API key. Create a new key at aistudio.google.com/apikey (must start with AIzaSy)."
+            return f"Gemini API error: {msg[:400]}"
+    except json.JSONDecodeError:
+        pass
+    return f"Gemini API error (HTTP {status_code}): {body[:400]}"
+
+
 def _ensure_configured():
     if not settings.ai_configured:
         raise HTTPException(
@@ -47,8 +65,7 @@ async def _call_gemini(system: str, user_prompt: str, history: list[dict] | None
     async with httpx.AsyncClient(timeout=90.0) as client:
         resp = await client.post(url, json=payload)
         if resp.status_code != 200:
-            detail = resp.text[:500]
-            raise HTTPException(status_code=502, detail=f"Gemini API error: {detail}")
+            raise HTTPException(status_code=502, detail=_gemini_error_message(resp.status_code, resp.text))
         data = resp.json()
         try:
             return data["candidates"][0]["content"]["parts"][0]["text"]
@@ -70,8 +87,8 @@ async def _stream_gemini(system: str, user_prompt: str, history: list[dict] | No
     async with httpx.AsyncClient(timeout=90.0) as client:
         async with client.stream("POST", url, json=payload) as resp:
             if resp.status_code != 200:
-                body = (await resp.aread()).decode()[:500]
-                raise HTTPException(status_code=502, detail=f"Gemini API error: {body}")
+                body = (await resp.aread()).decode()
+                raise HTTPException(status_code=502, detail=_gemini_error_message(resp.status_code, body))
 
             async for line in resp.aiter_lines():
                 if not line.startswith("data: "):

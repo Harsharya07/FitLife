@@ -1,6 +1,6 @@
 import json
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
 
 from app.auth_utils import get_current_user
@@ -230,6 +230,9 @@ async def chat_stream(
             async for chunk in stream_ai_response(prompt, history=history):
                 full_reply += chunk
                 yield f"data: {json.dumps({'type': 'chunk', 'content': chunk})}\n\n"
+        except HTTPException as exc:
+            yield f"data: {json.dumps({'type': 'error', 'content': exc.detail})}\n\n"
+            return
         except Exception as exc:
             yield f"data: {json.dumps({'type': 'error', 'content': str(exc)})}\n\n"
             return

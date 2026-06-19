@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     # LLM — set in .env (project root or backend/)
     llm_provider: str = "gemini"  # gemini | openai
     gemini_api_key: str = ""
-    gemini_model: str = "gemini-2.0-flash"
+    gemini_model: str = "gemini-2.0-flash-lite"
     openai_api_key: str = ""
     openai_model: str = "gpt-4o-mini"
     openai_base_url: str = "https://api.openai.com/v1"
