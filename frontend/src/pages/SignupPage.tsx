@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
-import { formatApiError } from '../lib/api';
+import { ensureBackendAwake, formatApiError } from '../lib/api';
 import FitLifeLogo from '../components/FitLifeLogo';
 
 function getPasswordStrength(password: string): { label: string; color: string; width: string } {
@@ -27,6 +27,7 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState('');
 
   const strength = getPasswordStrength(password);
 
@@ -39,7 +40,9 @@ export default function SignupPage() {
       return;
     }
     setSubmitting(true);
+    setStatus('');
     try {
+      await ensureBackendAwake(setStatus);
       await signup(username, password, confirmPassword);
     } catch (err) {
       toast.error(formatApiError(err, 'Signup failed'));
@@ -55,6 +58,7 @@ export default function SignupPage() {
       navigate('/login');
     } finally {
       setSubmitting(false);
+      setStatus('');
     }
   };
 
@@ -140,7 +144,7 @@ export default function SignupPage() {
           </div>
 
           <button type="submit" disabled={submitting} className="btn-primary w-full py-3.5 disabled:opacity-60">
-            {submitting ? 'Creating account...' : 'Create Account'}
+            {submitting ? status || 'Creating account…' : 'Create Account'}
           </button>
         </form>
 

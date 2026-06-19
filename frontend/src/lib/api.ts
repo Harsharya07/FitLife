@@ -56,6 +56,42 @@ export function apiBase(): string {
   return root ? `${root}/api` : '/api';
 }
 
+const isRemoteApi = Boolean(import.meta.env.VITE_API_URL?.trim());
+let backendAwakeUntil = 0;
+const WAKE_CACHE_MS = 5 * 60 * 1000;
+const WAKE_ATTEMPTS = 18;
+const WAKE_INTERVAL_MS = 4000;
+
+/**
+ * Ping /api/health until the backend responds (Render free tier cold start ~30–60s).
+ * No-op in local dev when VITE_API_URL is unset.
+ */
+export async function ensureBackendAwake(onProgress?: (message: string) => void): Promise<void> {
+  if (!isRemoteApi) return;
+  if (Date.now() < backendAwakeUntil) return;
+
+  onProgress?.('Connecting to server…');
+  const healthUrl = `${apiBase()}/health`;
+
+  for (let attempt = 1; attempt <= WAKE_ATTEMPTS; attempt++) {
+    try {
+      const { data } = await axios.get<{ status?: string }>(healthUrl, { timeout: 20_000 });
+      if (data?.status === 'ok') {
+        backendAwakeUntil = Date.now() + WAKE_CACHE_MS;
+        return;
+      }
+    } catch {
+      /* retry */
+    }
+    if (attempt < WAKE_ATTEMPTS) {
+      onProgress?.(`Starting server… (${attempt * 4}s)`);
+      await new Promise((r) => setTimeout(r, WAKE_INTERVAL_MS));
+    }
+  }
+
+  throw new Error('Server is starting — please wait a moment and try again');
+}
+
 const api = axios.create({
   baseURL: apiBase(),
   headers: { 'Content-Type': 'application/json' },

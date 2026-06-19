@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { authApi } from '../lib/api';
+import { authApi, ensureBackendAwake } from '../lib/api';
 import type { User } from '../types';
 
 interface AuthContextValue {
@@ -25,7 +25,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     authApi
       .me()
       .then(setUser)
-      .catch(() => {
+      .catch(async () => {
+        try {
+          await ensureBackendAwake();
+          const me = await authApi.me();
+          setUser(me);
+          return;
+        } catch {
+          /* fall through */
+        }
         localStorage.removeItem('fitlife_token');
         localStorage.removeItem('fitlife_refresh_token');
       })

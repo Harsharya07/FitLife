@@ -359,7 +359,7 @@ Alternatively use [`render.yaml`](./render.yaml): [Render → New Blueprint](htt
 
 ### Notes
 
-- **Free tier** sleeps after ~15 min idle; wake backend via `/api/health` before login (first request ~30–60s).
+- **Free tier** sleeps after ~15 min idle; the app auto-wakes the backend on login/signup (first load may take ~30–60s). Optional: use [UptimeRobot](https://uptimerobot.com) (free) to ping `/api/health` every 14 min, or upgrade to Render Starter ($7/mo) for always-on.
 - **SQLite** on free tier is ephemeral — data resets on redeploy.
 - Backend binds to Render's `$PORT` automatically via `scripts/start_backend.sh`.
 

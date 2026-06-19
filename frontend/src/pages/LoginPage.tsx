@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
-import { formatApiError } from '../lib/api';
+import { ensureBackendAwake, formatApiError } from '../lib/api';
 import FitLifeLogo from '../components/FitLifeLogo';
 
 export default function LoginPage() {
@@ -14,13 +14,16 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState('');
 
   if (!loading && user) return <Navigate to="/dashboard" replace />;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    setStatus('');
     try {
+      await ensureBackendAwake(setStatus);
       await login(username, password);
       toast.success('Logged in successfully!');
       navigate('/dashboard');
@@ -28,6 +31,7 @@ export default function LoginPage() {
       toast.error(formatApiError(err, 'Login failed'));
     } finally {
       setSubmitting(false);
+      setStatus('');
     }
   };
 
@@ -94,7 +98,7 @@ export default function LoginPage() {
           </div>
 
           <button type="submit" disabled={submitting} className="btn-primary w-full py-3.5 disabled:opacity-60">
-            {submitting ? 'Signing in...' : 'Sign In'}
+            {submitting ? status || 'Signing in…' : 'Sign In'}
           </button>
         </form>
 
