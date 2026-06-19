@@ -298,35 +298,70 @@ Common endpoints:
 
 ## Deploy on Render (Free)
 
-This repo includes a [`render.yaml`](./render.yaml) Blueprint that deploys both the backend and frontend in one step.
+You need **two services**: a **Web Service** (backend API) and a **Static Site** (frontend).
 
-### One-click deploy
+### Backend — Web Service (Docker)
 
-1. Go to [Render Dashboard → New Blueprint](https://dashboard.render.com/select-repo?type=blueprint)
-2. Connect GitHub and select the **FitLife** repository
-3. Render detects `render.yaml` and shows two services:
-   - **fitlife-api** — FastAPI backend (Docker, free tier)
-   - **fitlife** — React static site with `/api` proxy
-4. When prompted, enter:
-   - **SECRET_KEY** — generate with `openssl rand -hex 32`
-   - **GEMINI_API_KEY** — from [Google AI Studio](https://aistudio.google.com/apikey)
-5. Click **Apply** and wait ~10 minutes for both services to build
+| Setting | Value |
+|---------|-------|
+| Runtime | **Docker** |
+| Dockerfile Path | `./Dockerfile.backend` |
+| Start Command | *(leave empty — uses `scripts/start_backend.sh`)* |
+| Health Check Path | `/api/health` |
+| Instance Type | Free |
 
-Your app will be live at:
+**Environment variables:**
 
-| Service | URL |
-|---------|-----|
-| Frontend | `https://fitlife.onrender.com` |
-| Backend API | `https://fitlife-api.onrender.com` |
+| Key | Value |
+|-----|-------|
+| `FITLIFE_ENV` | `production` |
+| `SECRET_KEY` | `openssl rand -hex 32` |
+| `DATABASE_URL` | `/app/fitness_site.db` |
+| `LLM_PROVIDER` | `gemini` |
+| `GEMINI_API_KEY` | your key from [Google AI Studio](https://aistudio.google.com/apikey) |
+| `GEMINI_MODEL` | `gemini-2.0-flash` |
 
-Verify the backend: `https://fitlife-api.onrender.com/api/health`
+Verify: `https://YOUR-BACKEND.onrender.com/api/health` → `{"status":"ok",...}`
+
+### Frontend — Static Site
+
+| Setting | Value |
+|---------|-------|
+| Root Directory | `frontend` |
+| Build Command | `npm ci && npm run build` |
+| Publish Directory | `dist` |
+
+**Environment variable (required for login/API):**
+
+| Key | Value |
+|-----|-------|
+| `VITE_API_URL` | `https://YOUR-BACKEND.onrender.com` (no trailing slash) |
+
+After setting `VITE_API_URL`, run **Manual Deploy → Clear build cache & deploy**.
+
+**Redirects/Rewrites:**
+
+| Source | Destination | Action |
+|--------|-------------|--------|
+| `/*` | `/index.html` | Rewrite |
+
+### Verify deployment
+
+```bash
+./scripts/verify_deploy.sh https://YOUR-BACKEND.onrender.com
+```
+
+Should report **10 passed, 0 failed** (health, auth, content, workout, dashboard).
+
+### One-click Blueprint
+
+Alternatively use [`render.yaml`](./render.yaml): [Render → New Blueprint](https://dashboard.render.com/select-repo?type=blueprint). Set `VITE_API_URL` and `GEMINI_API_KEY` when prompted.
 
 ### Notes
 
-- **Free tier** services sleep after ~15 min idle; first request may take 30–60s (cold start).
-- **SQLite data** on free tier is ephemeral — user data resets on redeploy. Fine for demos.
-- If you rename the backend service, update the `/api/*` rewrite destination in `render.yaml` to match.
-- Manual step-by-step deploy instructions are also available in the conversation history or by deploying each service separately from the Render dashboard.
+- **Free tier** sleeps after ~15 min idle; wake backend via `/api/health` before login (first request ~30–60s).
+- **SQLite** on free tier is ephemeral — data resets on redeploy.
+- Backend binds to Render's `$PORT` automatically via `scripts/start_backend.sh`.
 
 ---
 

@@ -25,10 +25,18 @@ export default function LoginPage() {
       toast.success('Logged in successfully!');
       navigate('/dashboard');
     } catch (err) {
-      const msg = axios.isAxiosError(err)
-        ? err.response?.data?.detail || 'Login failed'
-        : 'Login failed';
-      toast.error(typeof msg === 'string' ? msg : 'Invalid credentials');
+      let msg = 'Login failed';
+      if (axios.isAxiosError(err)) {
+        if (err.code === 'ECONNABORTED') {
+          msg = 'Server is waking up — wait 60s and try again';
+        } else if (!err.response) {
+          msg = 'Cannot reach API — check backend is deployed and VITE_API_URL is set';
+        } else {
+          const detail = err.response?.data?.detail;
+          msg = typeof detail === 'string' ? detail : 'Invalid credentials';
+        }
+      }
+      toast.error(msg);
     } finally {
       setSubmitting(false);
     }

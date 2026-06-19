@@ -12,6 +12,8 @@ services:
     dockerfilePath: ./Dockerfile.backend
     dockerContext: .
     healthCheckPath: /api/health
+    # Render injects PORT; start_backend.sh binds to it
+    dockerCommand: ./start_backend.sh
     envVars:
       - key: FITLIFE_ENV
         value: production
