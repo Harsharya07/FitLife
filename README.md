@@ -1,3 +1,5 @@
+Try it out @ https://fitlife-1-vryd.onrender.com
+
 # FitLife
 
 **FitLife** is a full-stack fitness and wellness web application. Track workouts, explore exercises and recipes, read curated articles, and get personalized guidance from an AI coach — all in one modern, responsive interface.
