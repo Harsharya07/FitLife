@@ -9,6 +9,7 @@ def client(tmp_path, monkeypatch):
     db_file = tmp_path / "test.db"
     monkeypatch.setattr("app.database.DB_PATH", db_file)
     monkeypatch.setenv("SECRET_KEY", "test-secret-key-for-pytest")
+    monkeypatch.setenv("GROQ_API_KEY", "")
     monkeypatch.setenv("GEMINI_API_KEY", "")
     monkeypatch.setenv("OPENAI_API_KEY", "")
     init_db()

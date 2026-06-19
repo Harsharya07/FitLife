@@ -89,7 +89,7 @@ def _save_plan(user_id: int, plan_type: str, content: str) -> int:
 
 @router.get("/status", response_model=AiStatusResponse)
 def ai_status(_: UserResponse = Depends(get_current_user)):
-    model = settings.openai_model if settings.llm_provider == "openai" else settings.gemini_model
+    model = settings.ai_model_name
     return AiStatusResponse(
         configured=settings.ai_configured,
         provider=settings.llm_provider,

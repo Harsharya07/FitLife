@@ -20,7 +20,9 @@ class Settings(BaseSettings):
     ai_rate_limit_window_seconds: int = 60
 
     # LLM — set in .env (project root or backend/)
-    llm_provider: str = "gemini"  # gemini | openai
+    llm_provider: str = "groq"  # groq | gemini | openai
+    groq_api_key: str = ""
+    groq_model: str = "llama-3.3-70b-versatile"
     gemini_api_key: str = ""
     gemini_model: str = "gemini-2.0-flash-lite"
     openai_api_key: str = ""
@@ -43,7 +45,33 @@ class Settings(BaseSettings):
         return merged
 
     @property
+    def openai_compat_api_key(self) -> str:
+        if self.llm_provider == "groq":
+            return self.groq_api_key
+        return self.openai_api_key
+
+    @property
+    def openai_compat_base_url(self) -> str:
+        if self.llm_provider == "groq":
+            return "https://api.groq.com/openai/v1"
+        return self.openai_base_url
+
+    @property
+    def openai_compat_model(self) -> str:
+        if self.llm_provider == "groq":
+            return self.groq_model
+        return self.openai_model
+
+    @property
+    def ai_model_name(self) -> str:
+        if self.llm_provider == "gemini":
+            return self.gemini_model
+        return self.openai_compat_model
+
+    @property
     def ai_configured(self) -> bool:
+        if self.llm_provider == "groq":
+            return bool(self.groq_api_key.strip())
         if self.llm_provider == "openai":
             return bool(self.openai_api_key.strip())
         return bool(self.gemini_api_key.strip())

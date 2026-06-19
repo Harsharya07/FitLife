@@ -114,9 +114,17 @@ export default function GeneratePanel({
 
         {!aiStatus?.configured && (
           <p className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            Add <code className="rounded bg-amber-100 px-1">GEMINI_API_KEY</code> or{' '}
-            <code className="rounded bg-amber-100 px-1">OPENAI_API_KEY</code> to your{' '}
-            <code className="rounded bg-amber-100 px-1">.env</code> file and restart the backend.
+            Add <code className="rounded bg-amber-100 px-1">GROQ_API_KEY</code> to your{' '}
+            <code className="rounded bg-amber-100 px-1">.env</code> file (get one free at{' '}
+            <a
+              href="https://console.groq.com/keys"
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+            >
+              console.groq.com
+            </a>
+            ) and restart the backend.
           </p>
         )}
       </div>

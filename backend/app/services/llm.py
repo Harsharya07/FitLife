@@ -19,11 +19,11 @@ def _gemini_error_message(status_code: int, body: str) -> str:
         if msg:
             if "quota" in msg.lower() or status_code == 429:
                 return (
-                    "Gemini API quota exceeded. Use a valid key from Google AI Studio (starts with AIzaSy), "
-                    "try GEMINI_MODEL=gemini-2.0-flash-lite, or check billing at ai.google.dev."
+                    "Gemini API quota exceeded. Check free-tier usage at ai.google.dev/rate-limit "
+                    "or set GEMINI_MODEL=gemini-2.0-flash-lite on Render."
                 )
-            if "API key not valid" in msg or "invalid" in msg.lower():
-                return "Invalid Gemini API key. Create a new key at aistudio.google.com/apikey (must start with AIzaSy)."
+            if "API key not valid" in msg or "invalid authentication" in msg.lower():
+                return "Invalid Gemini API key. Copy the full key from aistudio.google.com/apikey and paste into GEMINI_API_KEY on Render."
             return f"Gemini API error: {msg[:400]}"
     except json.JSONDecodeError:
         pass
@@ -35,8 +35,8 @@ def _ensure_configured():
         raise HTTPException(
             status_code=503,
             detail=(
-                "AI is not configured. Add GEMINI_API_KEY or OPENAI_API_KEY to your .env file "
-                "and set LLM_PROVIDER=gemini or openai."
+                "AI is not configured. Add GROQ_API_KEY (default), GEMINI_API_KEY, or OPENAI_API_KEY "
+                "to your .env and set LLM_PROVIDER=groq, gemini, or openai."
             ),
         )
 
@@ -51,11 +51,16 @@ def _build_gemini_contents(user_prompt: str, history: list[dict] | None):
     return contents
 
 
+def _gemini_headers() -> dict[str, str]:
+    return {"Content-Type": "application/json", "x-goog-api-key": settings.gemini_api_key}
+
+
+def _gemini_url(path: str) -> str:
+    return f"https://generativelanguage.googleapis.com/v1beta/models/{settings.gemini_model}:{path}"
+
+
 async def _call_gemini(system: str, user_prompt: str, history: list[dict] | None = None) -> str:
-    url = (
-        f"https://generativelanguage.googleapis.com/v1beta/models/"
-        f"{settings.gemini_model}:generateContent?key={settings.gemini_api_key}"
-    )
+    url = _gemini_url("generateContent")
     payload = {
         "systemInstruction": {"parts": [{"text": system}]},
         "contents": _build_gemini_contents(user_prompt, history),
@@ -63,7 +68,7 @@ async def _call_gemini(system: str, user_prompt: str, history: list[dict] | None
     }
 
     async with httpx.AsyncClient(timeout=90.0) as client:
-        resp = await client.post(url, json=payload)
+        resp = await client.post(url, json=payload, headers=_gemini_headers())
         if resp.status_code != 200:
             raise HTTPException(status_code=502, detail=_gemini_error_message(resp.status_code, resp.text))
         data = resp.json()
@@ -74,10 +79,7 @@ async def _call_gemini(system: str, user_prompt: str, history: list[dict] | None
 
 
 async def _stream_gemini(system: str, user_prompt: str, history: list[dict] | None = None) -> AsyncIterator[str]:
-    url = (
-        f"https://generativelanguage.googleapis.com/v1beta/models/"
-        f"{settings.gemini_model}:streamGenerateContent?alt=sse&key={settings.gemini_api_key}"
-    )
+    url = _gemini_url("streamGenerateContent?alt=sse")
     payload = {
         "systemInstruction": {"parts": [{"text": system}]},
         "contents": _build_gemini_contents(user_prompt, history),
@@ -85,7 +87,7 @@ async def _stream_gemini(system: str, user_prompt: str, history: list[dict] | No
     }
 
     async with httpx.AsyncClient(timeout=90.0) as client:
-        async with client.stream("POST", url, json=payload) as resp:
+        async with client.stream("POST", url, json=payload, headers=_gemini_headers()) as resp:
             if resp.status_code != 200:
                 body = (await resp.aread()).decode()
                 raise HTTPException(status_code=502, detail=_gemini_error_message(resp.status_code, body))
@@ -107,6 +109,25 @@ async def _stream_gemini(system: str, user_prompt: str, history: list[dict] | No
                     continue
 
 
+def _openai_error_message(status_code: int, body: str) -> str:
+    try:
+        data = json.loads(body)
+        msg = data.get("error", {}).get("message", "")
+        if msg:
+            if "rate limit" in msg.lower() or status_code == 429:
+                return (
+                    "Groq API rate limit reached. Free tier allows ~1,000 requests/day — "
+                    "wait a minute or check console.groq.com/docs/rate-limits."
+                )
+            if "invalid" in msg.lower() and "api key" in msg.lower():
+                return "Invalid Groq API key. Create one at console.groq.com/keys and set GROQ_API_KEY in .env."
+            return f"AI API error: {msg[:400]}"
+    except json.JSONDecodeError:
+        pass
+    label = "Groq" if settings.llm_provider == "groq" else "OpenAI"
+    return f"{label} API error (HTTP {status_code}): {body[:400]}"
+
+
 async def _call_openai(system: str, user_prompt: str, history: list[dict] | None = None) -> str:
     messages = [{"role": "system", "content": system}]
     if history:
@@ -115,24 +136,25 @@ async def _call_openai(system: str, user_prompt: str, history: list[dict] | None
     messages.append({"role": "user", "content": user_prompt})
 
     headers = {
-        "Authorization": f"Bearer {settings.openai_api_key}",
+        "Authorization": f"Bearer {settings.openai_compat_api_key}",
         "Content-Type": "application/json",
     }
     payload = {
-        "model": settings.openai_model,
+        "model": settings.openai_compat_model,
         "messages": messages,
         "temperature": 0.7,
         "max_tokens": 4096,
     }
 
+    base_url = settings.openai_compat_base_url.rstrip("/")
     async with httpx.AsyncClient(timeout=90.0) as client:
         resp = await client.post(
-            f"{settings.openai_base_url.rstrip('/')}/chat/completions",
+            f"{base_url}/chat/completions",
             headers=headers,
             json=payload,
         )
         if resp.status_code != 200:
-            raise HTTPException(status_code=502, detail=f"OpenAI API error: {resp.text[:500]}")
+            raise HTTPException(status_code=502, detail=_openai_error_message(resp.status_code, resp.text))
         data = resp.json()
         try:
             return data["choices"][0]["message"]["content"]
@@ -148,27 +170,28 @@ async def _stream_openai(system: str, user_prompt: str, history: list[dict] | No
     messages.append({"role": "user", "content": user_prompt})
 
     headers = {
-        "Authorization": f"Bearer {settings.openai_api_key}",
+        "Authorization": f"Bearer {settings.openai_compat_api_key}",
         "Content-Type": "application/json",
     }
     payload = {
-        "model": settings.openai_model,
+        "model": settings.openai_compat_model,
         "messages": messages,
         "temperature": 0.7,
         "max_tokens": 4096,
         "stream": True,
     }
 
+    base_url = settings.openai_compat_base_url.rstrip("/")
     async with httpx.AsyncClient(timeout=90.0) as client:
         async with client.stream(
             "POST",
-            f"{settings.openai_base_url.rstrip('/')}/chat/completions",
+            f"{base_url}/chat/completions",
             headers=headers,
             json=payload,
         ) as resp:
             if resp.status_code != 200:
-                body = (await resp.aread()).decode()[:500]
-                raise HTTPException(status_code=502, detail=f"OpenAI API error: {body}")
+                body = (await resp.aread()).decode()
+                raise HTTPException(status_code=502, detail=_openai_error_message(resp.status_code, body))
 
             async for line in resp.aiter_lines():
                 if not line.startswith("data: "):
@@ -192,7 +215,7 @@ async def generate_ai_response(
     history: list[dict] | None = None,
 ) -> str:
     _ensure_configured()
-    if settings.llm_provider == "openai":
+    if settings.llm_provider in ("openai", "groq"):
         return await _call_openai(system, user_prompt, history)
     return await _call_gemini(system, user_prompt, history)
 
@@ -203,7 +226,7 @@ async def stream_ai_response(
     history: list[dict] | None = None,
 ) -> AsyncIterator[str]:
     _ensure_configured()
-    if settings.llm_provider == "openai":
+    if settings.llm_provider in ("openai", "groq"):
         async for chunk in _stream_openai(system, user_prompt, history):
             yield chunk
     else:

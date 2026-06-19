@@ -160,10 +160,12 @@ All variables live in `.env` at the project root. See `.env.example` for the ful
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `LLM_PROVIDER` | AI provider: `gemini` or `openai` | `gemini` |
-| `GEMINI_API_KEY` | Google Gemini API key | — |
-| `GEMINI_MODEL` | Gemini model name | `gemini-2.0-flash` |
-| `OPENAI_API_KEY` | OpenAI (or compatible) API key | — |
+| `LLM_PROVIDER` | AI provider: `groq`, `gemini`, or `openai` | `groq` |
+| `GROQ_API_KEY` | Groq API key ([console.groq.com](https://console.groq.com/keys)) | — |
+| `GROQ_MODEL` | Groq model name | `llama-3.3-70b-versatile` |
+| `GEMINI_API_KEY` | Google Gemini API key (optional) | — |
+| `GEMINI_MODEL` | Gemini model name | `gemini-2.0-flash-lite` |
+| `OPENAI_API_KEY` | OpenAI (or compatible) API key (optional) | — |
 | `OPENAI_MODEL` | OpenAI model name | `gpt-4o-mini` |
 | `OPENAI_BASE_URL` | OpenAI-compatible base URL | `https://api.openai.com/v1` |
 | `SECRET_KEY` | JWT signing secret — **change in production** | dev default |
@@ -183,13 +185,17 @@ All variables live in `.env` at the project root. See `.env.example` for the ful
 AI features (chat, diet plans, workout routines) require an API key.
 
 1. Copy `.env.example` → `.env` if you have not already.
-2. Add your Gemini key:
+2. Add your Groq key (free tier, no credit card):
 
 ```env
-LLM_PROVIDER=gemini
-GEMINI_API_KEY=your_key_here
-GEMINI_MODEL=gemini-2.0-flash
+LLM_PROVIDER=groq
+GROQ_API_KEY=gsk_your_key_here
+GROQ_MODEL=llama-3.3-70b-versatile
 ```
+
+Get a key at [console.groq.com/keys](https://console.groq.com/keys).
+
+**Alternatives:** set `LLM_PROVIDER=gemini` with `GEMINI_API_KEY`, or `LLM_PROVIDER=openai` with `OPENAI_API_KEY`.
 
 3. Restart the backend after changing `.env`.
 
@@ -317,9 +323,9 @@ You need **two services**: a **Web Service** (backend API) and a **Static Site**
 | `FITLIFE_ENV` | `production` |
 | `SECRET_KEY` | `openssl rand -hex 32` |
 | `DATABASE_URL` | `/app/fitness_site.db` |
-| `LLM_PROVIDER` | `gemini` |
-| `GEMINI_API_KEY` | your key from [Google AI Studio](https://aistudio.google.com/apikey) |
-| `GEMINI_MODEL` | `gemini-2.0-flash` |
+| `LLM_PROVIDER` | `groq` |
+| `GROQ_API_KEY` | your key from [Groq Console](https://console.groq.com/keys) |
+| `GROQ_MODEL` | `llama-3.3-70b-versatile` |
 
 Verify: `https://YOUR-BACKEND.onrender.com/api/health` → `{"status":"ok",...}`
 
@@ -355,7 +361,7 @@ Should report **10 passed, 0 failed** (health, auth, content, workout, dashboard
 
 ### One-click Blueprint
 
-Alternatively use [`render.yaml`](./render.yaml): [Render → New Blueprint](https://dashboard.render.com/select-repo?type=blueprint). Set `VITE_API_URL` and `GEMINI_API_KEY` when prompted.
+Alternatively use [`render.yaml`](./render.yaml): [Render → New Blueprint](https://dashboard.render.com/select-repo?type=blueprint). Set `VITE_API_URL` and `GROQ_API_KEY` when prompted.
 
 ### Notes
 

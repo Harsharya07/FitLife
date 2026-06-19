@@ -20,11 +20,11 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: LLM_PROVIDER
-        value: gemini
-      - key: GEMINI_API_KEY
+        value: groq
+      - key: GROQ_API_KEY
         sync: false
-      - key: GEMINI_MODEL
-        value: gemini-2.0-flash-lite
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile
       - key: DATABASE_URL
         value: /app/fitness_site.db
       - key: ADMIN_USERNAME

@@ -109,7 +109,7 @@ export default function AiCoachPage() {
       >
         {aiStatus && (
           <span className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold ${aiStatus.configured ? 'bg-accent/90 text-white' : 'bg-amber-400/90 text-ink'}`}>
-            {aiStatus.configured ? `Connected · ${aiStatus.provider}` : 'Set API key in .env'}
+            {aiStatus.configured ? `Connected · ${aiStatus.provider}` : 'Set GROQ_API_KEY in .env'}
           </span>
         )}
         {aiStatus?.configured && (
