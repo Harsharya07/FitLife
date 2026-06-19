@@ -60,6 +60,18 @@ def on_startup():
     logger.info("FitLife API started (provider=%s, ai=%s)", settings.llm_provider, settings.ai_configured)
 
 
+@app.get("/")
+def root():
+    return {
+        "app": "FitLife API",
+        "version": "4.0.0",
+        "status": "running",
+        "docs": "/docs",
+        "health": "/api/health",
+        "note": "This is the API server. Deploy the React frontend separately on Render Static Site.",
+    }
+
+
 @app.get("/api/health")
 def health():
     return {
