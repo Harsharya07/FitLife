@@ -32,9 +32,16 @@ import type {
   WorkoutLogInput,
 } from '../types';
 
+/** API root: set VITE_API_URL at build time for production (e.g. https://fitlife-api.onrender.com). */
+export function apiBase(): string {
+  const root = import.meta.env.VITE_API_URL?.replace(/\/$/, '') ?? '';
+  return root ? `${root}/api` : '/api';
+}
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: apiBase(),
   headers: { 'Content-Type': 'application/json' },
+  timeout: 90_000, // Render free tier cold starts can take ~60s
 });
 
 let refreshPromise: Promise<string> | null = null;
@@ -44,8 +51,9 @@ async function refreshAccessToken(): Promise<string> {
   if (!refreshToken) throw new Error('No refresh token');
 
   const { data } = await axios.post<{ access_token: string; refresh_token: string }>(
-    '/api/auth/refresh',
+    `${apiBase()}/auth/refresh`,
     { refresh_token: refreshToken },
+    { timeout: 90_000 },
   );
   localStorage.setItem('fitlife_token', data.access_token);
   localStorage.setItem('fitlife_refresh_token', data.refresh_token);
@@ -184,7 +192,7 @@ export const aiApi = {
     signal?: AbortSignal,
   ): Promise<{ message_id: number }> => {
     const token = localStorage.getItem('fitlife_token');
-    const response = await fetch('/api/ai/chat/stream', {
+    const response = await fetch(`${apiBase()}/ai/chat/stream`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

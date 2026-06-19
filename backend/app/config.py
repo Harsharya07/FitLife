@@ -32,6 +32,17 @@ class Settings(BaseSettings):
         extra = "ignore"
 
     @property
+    def cors_origin_list(self) -> list[str]:
+        extras = [o.strip() for o in os.getenv("CORS_ORIGINS", "").split(",") if o.strip()]
+        merged: list[str] = []
+        seen: set[str] = set()
+        for origin in [*self.cors_origins, *extras]:
+            if origin not in seen:
+                seen.add(origin)
+                merged.append(origin)
+        return merged
+
+    @property
     def ai_configured(self) -> bool:
         if self.llm_provider == "openai":
             return bool(self.openai_api_key.strip())

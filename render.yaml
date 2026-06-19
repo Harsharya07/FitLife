@@ -38,6 +38,9 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "22"
+      # Set to your backend URL, e.g. https://fitlife-api.onrender.com (no trailing slash)
+      - key: VITE_API_URL
+        sync: false
     routes:
       - type: rewrite
         source: /api/*
