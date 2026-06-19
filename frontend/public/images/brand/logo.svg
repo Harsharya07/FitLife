@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="FitLife">
+  <defs>
+    <linearGradient id="fitlife-bg" x1="4" y1="4" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6d28d9"/>
+      <stop offset="0.45" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#14b8a6"/>
+    </linearGradient>
+    <linearGradient id="fitlife-shine" x1="16" y1="8" x2="48" y2="40" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#fitlife-bg)"/>
+  <rect width="64" height="64" rx="16" fill="url(#fitlife-shine)"/>
+  <!-- Dumbbell -->
+  <rect x="10" y="27" width="8" height="10" rx="2.5" fill="#fff"/>
+  <rect x="46" y="27" width="8" height="10" rx="2.5" fill="#fff"/>
+  <rect x="7" y="29" width="5" height="6" rx="1.5" fill="#fff" opacity="0.85"/>
+  <rect x="52" y="29" width="5" height="6" rx="1.5" fill="#fff" opacity="0.85"/>
+  <rect x="18" y="30.5" width="28" height="3" rx="1.5" fill="#fff"/>
+  <!-- Heartbeat pulse -->
+  <path d="M14 44h8l3-6 4 10 3-8h18" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+</svg>
