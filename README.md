@@ -19,6 +19,7 @@ Built with **React + TypeScript** on the frontend and **FastAPI + SQLite** on th
 - [Project Structure](#project-structure)
 - [Testing](#testing)
 - [API Overview](#api-overview)
+- [Deploy on Render (Free)](#deploy-on-render-free)
 - [Production Build](#production-build)
 - [Image Assets](#image-assets)
 - [License](#license)
@@ -292,6 +293,40 @@ Common endpoints:
 | `POST` | `/api/ai/generate/*` | Generate and save diet/workout plans |
 | `GET` | `/api/content/exercises` | Exercise library |
 | `GET` | `/api/admin/contacts` | Admin contact inbox |
+
+---
+
+## Deploy on Render (Free)
+
+This repo includes a [`render.yaml`](./render.yaml) Blueprint that deploys both the backend and frontend in one step.
+
+### One-click deploy
+
+1. Go to [Render Dashboard → New Blueprint](https://dashboard.render.com/select-repo?type=blueprint)
+2. Connect GitHub and select the **FitLife** repository
+3. Render detects `render.yaml` and shows two services:
+   - **fitlife-api** — FastAPI backend (Docker, free tier)
+   - **fitlife** — React static site with `/api` proxy
+4. When prompted, enter:
+   - **SECRET_KEY** — generate with `openssl rand -hex 32`
+   - **GEMINI_API_KEY** — from [Google AI Studio](https://aistudio.google.com/apikey)
+5. Click **Apply** and wait ~10 minutes for both services to build
+
+Your app will be live at:
+
+| Service | URL |
+|---------|-----|
+| Frontend | `https://fitlife.onrender.com` |
+| Backend API | `https://fitlife-api.onrender.com` |
+
+Verify the backend: `https://fitlife-api.onrender.com/api/health`
+
+### Notes
+
+- **Free tier** services sleep after ~15 min idle; first request may take 30–60s (cold start).
+- **SQLite data** on free tier is ephemeral — user data resets on redeploy. Fine for demos.
+- If you rename the backend service, update the `/api/*` rewrite destination in `render.yaml` to match.
+- Manual step-by-step deploy instructions are also available in the conversation history or by deploying each service separately from the Render dashboard.
 
 ---
 
