@@ -32,6 +32,24 @@ import type {
   WorkoutLogInput,
 } from '../types';
 
+/** Turn axios/FastAPI errors into a user-facing string. */
+export function formatApiError(err: unknown, fallback = 'Request failed'): string {
+  if (!axios.isAxiosError(err)) return fallback;
+  if (err.code === 'ECONNABORTED') {
+    return 'Server is waking up — wait 60 seconds and try again';
+  }
+  if (!err.response) {
+    return 'Cannot reach API — check backend is running and VITE_API_URL is set';
+  }
+  const detail = err.response.data?.detail;
+  if (typeof detail === 'string') return detail;
+  if (Array.isArray(detail) && detail.length > 0) {
+    const first = detail[0];
+    if (typeof first?.msg === 'string') return first.msg;
+  }
+  return fallback;
+}
+
 /** API root: set VITE_API_URL at build time for production (e.g. https://fitlife-api.onrender.com). */
 export function apiBase(): string {
   const root = import.meta.env.VITE_API_URL?.replace(/\/$/, '') ?? '';

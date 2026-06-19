@@ -4,8 +4,7 @@ import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
-import FitLifeLogo from '../components/FitLifeLogo';
+import { formatApiError } from '../lib/api';
 
 export default function LoginPage() {
   const { login, user, loading } = useAuth();
@@ -25,18 +24,7 @@ export default function LoginPage() {
       toast.success('Logged in successfully!');
       navigate('/dashboard');
     } catch (err) {
-      let msg = 'Login failed';
-      if (axios.isAxiosError(err)) {
-        if (err.code === 'ECONNABORTED') {
-          msg = 'Server is waking up — wait 60s and try again';
-        } else if (!err.response) {
-          msg = 'Cannot reach API — check backend is deployed and VITE_API_URL is set';
-        } else {
-          const detail = err.response?.data?.detail;
-          msg = typeof detail === 'string' ? detail : 'Invalid credentials';
-        }
-      }
-      toast.error(msg);
+      toast.error(formatApiError(err, 'Login failed'));
     } finally {
       setSubmitting(false);
     }

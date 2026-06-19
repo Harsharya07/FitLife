@@ -3,8 +3,8 @@ import { Eye, EyeOff, Lock, User } from 'lucide-react';
 import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { formatApiError } from '../lib/api';
 import FitLifeLogo from '../components/FitLifeLogo';
 
 function getPasswordStrength(password: string): { label: string; color: string; width: string } {
@@ -41,14 +41,18 @@ export default function SignupPage() {
     setSubmitting(true);
     try {
       await signup(username, password, confirmPassword);
+    } catch (err) {
+      toast.error(formatApiError(err, 'Signup failed'));
+      setSubmitting(false);
+      return;
+    }
+    try {
       await login(username, password);
       toast.success('Account created!');
       navigate('/dashboard');
     } catch (err) {
-      const msg = axios.isAxiosError(err)
-        ? err.response?.data?.detail || 'Signup failed'
-        : 'Signup failed';
-      toast.error(typeof msg === 'string' ? msg : 'Could not create account');
+      toast.error(formatApiError(err, 'Account created but login failed — please sign in'));
+      navigate('/login');
     } finally {
       setSubmitting(false);
     }
